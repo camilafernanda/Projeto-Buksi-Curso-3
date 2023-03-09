@@ -32,7 +32,7 @@ function adicionarLivro(event) {
     
     // Cálculos de páginas
     let paginasFaltantes = calculoPaginasFaltantes(livros);
-    let percentualPaginas = calculoPercentualLeitura(paginasLidas, totalPaginas);
+    let percentualPaginas = calculoPercentualLeitura(livros);
     
     imprimirNaTela(paginasLidas, paginasFaltantes, percentualPaginas);
     imprimirLivroNaTela(livroCompleto);
@@ -52,7 +52,13 @@ function calculoPaginasFaltantes(livros){
     return paginasFaltantes;
 }
 
-function calculoPercentualLeitura(paginasLidas, totalPaginas){
+function calculoPercentualLeitura(livros){
+    let totalPaginas = 0;
+    let paginasLidas = 0;
+    for(let i=0; i<livros.length;i++){
+        totalPaginas += Number(livros[i].totalPaginas);
+        paginasLidas += Number(livros[i].paginasLidas);
+    }
     let percentualPaginas = paginasLidas * 100 / totalPaginas;
     return percentualPaginas;
 }
@@ -126,6 +132,7 @@ function criarElementoLivroLido(livroCompleto) {
     elementoBotaoDelete.className = "botao-simples-texto";
     return elementoArticle;
 }
+
 function livroFoiLido(paginasLidas, totalPaginas) {
     if (paginasLidas == totalPaginas) {
         return true;
