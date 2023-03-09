@@ -18,7 +18,7 @@ function adicionarLivro(event) {
     let totalPaginas = document.querySelector("#total_paginas").value;
 
     let lido = livroFoiLido(paginasLidas, totalPaginas);
-
+    
     let livroCompleto = {
         titulo : tituloLivro, 
         autor: autorLivro,
