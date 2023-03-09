@@ -18,7 +18,7 @@ function adicionarLivro(event) {
     let totalPaginas = document.querySelector("#total_paginas").value;
 
     let lido = livroFoiLido(paginasLidas, totalPaginas);
-    
+
     let livroCompleto = {
         titulo : tituloLivro, 
         autor: autorLivro,
@@ -64,17 +64,23 @@ function imprimirNaTela(paginasLidas, paginasFaltantes, percentualPaginas) {
 
 function imprimirLivroNaTela(livroCompleto) {
 
-    let elementoArticle = document.createElement("article");
-    elementoArticle.className = "livro";
+    
 
     if (livroCompleto.lido == true) {
+        let elementoArticle = criarElementoLivroLido(livroCompleto);
         let elementoListaLido = document.querySelector("#lista_livros_lidos");
         elementoListaLido.appendChild(elementoArticle);
     } else {
+        let elementoArticle = criarElementoLivroLendo(livroCompleto);
         let elementoListaLendo = document.querySelector("#lista_livros_nao_lidos");
         elementoListaLendo.appendChild(elementoArticle);
     }
+    
+}
 
+function criarElementoLivroLendo(livroCompleto) {
+    let elementoArticle = document.createElement("article");
+    elementoArticle.className = "livro";
     let elementoImagem = document.createElement("img");
     elementoImagem.src = livroCompleto.capa;
     elementoArticle.appendChild(elementoImagem);
@@ -95,8 +101,26 @@ function imprimirLivroNaTela(livroCompleto) {
     elementoBotaoDelete.innerText = "X Deletar o livro";
     elementoArticle.appendChild(elementoBotaoDelete);
     elementoBotaoDelete.className = "botao-simples-texto";
+    return elementoArticle;
 }
 
+function criarElementoLivroLido(livroCompleto) {
+    let elementoArticle = document.createElement("article");
+    elementoArticle.className = "livro lido";
+    let elementoImagem = document.createElement("img");
+    elementoImagem.src = livroCompleto.capa;
+    elementoArticle.appendChild(elementoImagem);
+
+    let elementoTituloLivro = document.createElement("h1");
+    elementoTituloLivro.innerText = livroCompleto.titulo;
+    elementoArticle.appendChild(elementoTituloLivro);
+
+    let elementoBotaoDelete = document.createElement("button");
+    elementoBotaoDelete.innerText = "X Deletar o livro";
+    elementoArticle.appendChild(elementoBotaoDelete);
+    elementoBotaoDelete.className = "botao-simples-texto";
+    return elementoArticle;
+}
 function livroFoiLido(paginasLidas, totalPaginas) {
     if (paginasLidas == totalPaginas) {
         console.log("Livro foi lido!");
