@@ -29,10 +29,9 @@ function adicionarLivro(event) {
     }
 
     livros.push(livroCompleto);
-    console.log(livros);
     
     // Cálculos de páginas
-    let paginasFaltantes = calculoPaginasFaltantes(totalPaginas,paginasLidas);
+    let paginasFaltantes = calculoPaginasFaltantes(livros);
     let percentualPaginas = calculoPercentualLeitura(paginasLidas, totalPaginas);
     
     imprimirNaTela(paginasLidas, paginasFaltantes, percentualPaginas);
@@ -40,8 +39,16 @@ function adicionarLivro(event) {
 }
 
 
-function calculoPaginasFaltantes(totalPaginas, paginasLidas){
-    let paginasFaltantes = totalPaginas - paginasLidas;
+function calculoPaginasFaltantes(livros){
+    let totalPaginasLidasLivros = 0;
+    let totalPaginasLivros = 0;
+
+    for (let i = 0; i < livros.length; i++) {
+        totalPaginasLidasLivros += Number(livros[i].paginasLidas);
+        totalPaginasLivros += Number(livros[i].totalPaginas);
+    }
+
+    let paginasFaltantes = totalPaginasLivros - totalPaginasLidasLivros
     return paginasFaltantes;
 }
 
@@ -63,8 +70,6 @@ function imprimirNaTela(paginasLidas, paginasFaltantes, percentualPaginas) {
 }
 
 function imprimirLivroNaTela(livroCompleto) {
-
-    
 
     if (livroCompleto.lido == true) {
         let elementoArticle = criarElementoLivroLido(livroCompleto);
@@ -123,11 +128,9 @@ function criarElementoLivroLido(livroCompleto) {
 }
 function livroFoiLido(paginasLidas, totalPaginas) {
     if (paginasLidas == totalPaginas) {
-        console.log("Livro foi lido!");
         return true;
     }
     else {
-        console.log("livro não foi lido!");
         return false;
     }
 }
