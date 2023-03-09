@@ -112,6 +112,9 @@ function criarElementoLivroLendo(livroCompleto) {
     elementoBotaoDelete.innerText = "X Deletar o livro";
     elementoArticle.appendChild(elementoBotaoDelete);
     elementoBotaoDelete.className = "botao-simples-texto";
+
+    deletarLivro(elementoBotaoDelete, elementoArticle, livroCompleto);
+
     return elementoArticle;
 }
 
@@ -140,4 +143,16 @@ function livroFoiLido(paginasLidas, totalPaginas) {
     else {
         return false;
     }
+}
+
+function deletarLivro(elementoBotaoDelete, elementoArticle, livroCompleto) {
+    elementoBotaoDelete.addEventListener("click", function(){
+        elementoArticle.remove();
+        let indice = livros.indexOf(livroCompleto);
+        livros.splice(indice, 1);
+        let paginasFaltantesAtualizada = calculoPaginasFaltantes(livros);
+        let percentualPaginasAtualizado = calculoPercentualLeitura(livros);
+
+        imprimirNaTela(livroCompleto.paginasLidas, paginasFaltantesAtualizada, percentualPaginasAtualizado);
+    })
 }
