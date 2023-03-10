@@ -106,6 +106,9 @@ function criarElementoLivroLendo(livroCompleto) {
 
     let elementoProgressoLeitura = document.createElement("input");
     elementoProgressoLeitura.type = "range";
+    elementoProgressoLeitura.min = 0;
+    elementoProgressoLeitura.value = livroCompleto.paginasLidas;
+    elementoProgressoLeitura.max = livroCompleto.totalPaginas;
     elementoArticle.appendChild(elementoProgressoLeitura);
 
     let elementoBotaoDelete = document.createElement("button");
@@ -114,7 +117,7 @@ function criarElementoLivroLendo(livroCompleto) {
     elementoBotaoDelete.className = "botao-simples-texto";
 
     deletarLivro(elementoBotaoDelete, elementoArticle, livroCompleto);
-
+    marcarLivroLido(elementoProgressoLeitura, livroCompleto, elementoArticle);
     return elementoArticle;
 }
 
@@ -133,6 +136,8 @@ function criarElementoLivroLido(livroCompleto) {
     elementoBotaoDelete.innerText = "X Deletar o livro";
     elementoArticle.appendChild(elementoBotaoDelete);
     elementoBotaoDelete.className = "botao-simples-texto";
+
+    deletarLivro(elementoBotaoDelete, elementoArticle, livroCompleto);
     return elementoArticle;
 }
 
@@ -150,9 +155,30 @@ function deletarLivro(elementoBotaoDelete, elementoArticle, livroCompleto) {
         elementoArticle.remove();
         let indice = livros.indexOf(livroCompleto);
         livros.splice(indice, 1);
-        let paginasFaltantesAtualizada = calculoPaginasFaltantes(livros);
-        let percentualPaginasAtualizado = calculoPercentualLeitura(livros);
-
-        imprimirNaTela(livroCompleto.paginasLidas, paginasFaltantesAtualizada, percentualPaginasAtualizado);
+        
+        atualizaResumo(livroCompleto);
     })
+}
+
+function marcarLivroLido(elementoProgressoLeitura, livroCompleto, elementoArticle) {
+    elementoProgressoLeitura.addEventListener("change", function(){
+        let paginaAtual = elementoProgressoLeitura.value;
+        livroCompleto.paginasLidas = paginaAtual;
+        console.log(livroCompleto.paginasLidas);
+
+        if (livroFoiLido(paginaAtual, livroCompleto.totalPaginas)){
+            livroCompleto.lido = true;
+            elementoArticle.remove();
+            imprimirLivroNaTela(livroCompleto);
+        }
+
+        atualizaResumo(livroCompleto);
+    })
+}
+
+function atualizaResumo(livroCompleto){
+    let paginasFaltantesAtualizada = calculoPaginasFaltantes(livros);
+    let percentualPaginasAtualizado = calculoPercentualLeitura(livros);
+
+    imprimirNaTela(livroCompleto.paginasLidas, paginasFaltantesAtualizada, percentualPaginasAtualizado);
 }
